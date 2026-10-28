@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Productos · Tienda Virtual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="rail">
+    <header class="brand">
+      <p class="brand-name">Tienda Virtual</p>
+      <p class="brand-sub">Panel de operación</p>
+    </header>
+
+    <nav class="nav" aria-label="Secciones">
+      <a href="#productos" data-vista="productos"><span data-icono="package"></span>Productos<span class="count" id="n-productos"></span></a>
+      <a href="#clientes" data-vista="clientes"><span data-icono="users"></span>Clientes<span class="count" id="n-clientes"></span></a>
+      <a href="#pedidos" data-vista="pedidos"><span data-icono="receipt"></span>Pedidos<span class="count" id="n-pedidos"></span></a>
+    </nav>
+
+    <aside class="board" aria-label="Estado de los servicios">
+      <h2 class="etiqueta">Servicios</h2>
+      <ul id="board"></ul>
+    </aside>
+  </div>
+
+  <main class="main" id="main">
+
+    <section class="view" id="v-productos" aria-labelledby="t-productos">
+      <header class="view-head">
+        <div>
+          <h1 id="t-productos" tabindex="-1">Productos</h1>
+          <p class="meta" id="meta-productos">Cargando catálogo</p>
+        </div>
+        <button class="btn primario" data-abrir="dlg-producto"><span data-icono="plus" data-tam="18"></span>Registrar producto</button>
+      </header>
+      <div class="panel" id="panel-productos"></div>
+    </section>
+
+    <section class="view" id="v-clientes" aria-labelledby="t-clientes" hidden>
+      <header class="view-head">
+        <div>
+          <h1 id="t-clientes" tabindex="-1">Clientes</h1>
+          <p class="meta" id="meta-clientes">Cargando clientes</p>
+        </div>
+        <button class="btn primario" data-abrir="dlg-cliente"><span data-icono="plus" data-tam="18"></span>Registrar cliente</button>
+      </header>
+      <div class="panel" id="panel-clientes"></div>
+    </section>
+
+    <section class="view" id="v-pedidos" aria-labelledby="t-pedidos" hidden>
+      <header class="view-head">
+        <div>
+          <h1 id="t-pedidos" tabindex="-1">Pedidos</h1>
+          <p class="meta" id="meta-pedidos">Cargando pedidos</p>
+        </div>
+      </header>
+      <div class="pedidos-grid">
+        <form class="panel form" id="form-pedido" novalidate>
+          <h2 class="form-titulo">Nuevo pedido</h2>
+          <div class="campo">
+            <label for="sel-cliente">Cliente</label>
+            <select id="sel-cliente" required></select>
+          </div>
+          <div class="campo">
+            <label for="sel-producto">Producto</label>
+            <select id="sel-producto" required></select>
+          </div>
+          <div class="campo">
+            <label for="inp-cantidad">Cantidad</label>
+            <input id="inp-cantidad" type="number" inputmode="numeric" min="1" step="1" value="1" required>
+            <p class="ayuda" id="ayuda-cantidad"></p>
+          </div>
+
+          <div class="tiquete" aria-live="polite">
+            <dl>
+              <div class="fila"><dt>Cliente</dt><dd id="tq-cliente">—</dd></div>
+              <div class="fila"><dt>Producto</dt><dd id="tq-producto">—</dd></div>
+              <div class="fila"><dt>Precio unitario</dt><dd id="tq-precio">—</dd></div>
+              <div class="fila"><dt>Cantidad</dt><dd id="tq-cantidad">—</dd></div>
+              <div class="fila"><dt>Quedarán en stock</dt><dd id="tq-stock">—</dd></div>
+            </dl>
+            <div class="total"><span>Total</span><strong id="tq-total">$0</strong></div>
+          </div>
+
+          <p class="error-linea" id="err-pedido" role="alert" hidden><span data-icono="alerta" data-tam="18"></span><span></span></p>
+          <button class="btn primario ancho" id="btn-pedido" type="submit">Confirmar pedido</button>
+        </form>
+        <div class="panel" id="panel-pedidos"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<dialog id="dlg-producto" aria-labelledby="dt-producto">
+  <form id="form-producto" class="form" novalidate>
+    <h2 class="form-titulo" id="dt-producto">Registrar producto</h2>
+    <div class="campo">
+      <label for="p-nombre">Nombre del producto</label>
+      <input id="p-nombre" name="nombre" required maxlength="80" autocomplete="off">
+    </div>
+    <div class="campos-2">
+      <div class="campo">
+        <label for="p-precio">Precio (COP)</label>
+        <input id="p-precio" name="precio" type="number" inputmode="decimal" min="1" step="any" required>
+      </div>
+      <div class="campo">
+        <label for="p-stock">Unidades en stock</label>
+        <input id="p-stock" name="stock" type="number" inputmode="numeric" min="0" step="1" required>
+      </div>
+    </div>
+    <p class="error-linea" role="alert" hidden><span data-icono="alerta" data-tam="18"></span><span></span></p>
+    <div class="acciones">
+      <button class="btn secundario" type="button" data-cerrar>Cancelar</button>
+      <button class="btn primario" type="submit">Guardar producto</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-cliente" aria-labelledby="dt-cliente">
+  <form id="form-cliente" class="form" novalidate>
+    <h2 class="form-titulo" id="dt-cliente">Registrar cliente</h2>
+    <div class="campo">
+      <label for="c-nombre">Nombre completo</label>
+      <input id="c-nombre" name="nombre" required maxlength="80" autocomplete="off">
+    </div>
+    <div class="campo">
+      <label for="c-email">Correo electrónico</label>
+      <input id="c-email" name="email" type="email" required autocomplete="off">
+    </div>
+    <p class="error-linea" role="alert" hidden><span data-icono="alerta" data-tam="18"></span><span></span></p>
+    <div class="acciones">
+      <button class="btn secundario" type="button" data-cerrar>Cancelar</button>
+      <button class="btn primario" type="submit">Guardar cliente</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="aviso" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
